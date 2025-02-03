@@ -24,25 +24,40 @@ namespace Lection3Controller.Source
             Debug.Log($"Added: {value}");
         }
 
-        [ContextMenu("Remove")]
-        private void Remove()
+        [ContextMenu("RemoveDuplicates")]
+        private void RemoveDuplicates()
         {
-            for (int i = list.Count - 1; i >= 0; i--)
+            List<int> indicesForRemove = new List<int>();
+            for (int i = 0; i < list.Count; ++i)
             {
                 if (list[i] == value)
                 {
-                    list.RemoveAt(i);
-                    Debug.Log($"Removed: {value} at position {i}");
+                    indicesForRemove.Add(i);
                 }
-            } 
+            }
+
+            if (indicesForRemove.Count > 0)
+            {
+                for (int i = indicesForRemove.Count - 1; i >= 0; i--)
+                {
+                    int indexToRemove = indicesForRemove[i];
+                    list.RemoveAt(indexToRemove);
+                }
+
+                Debug.Log($"Removed all instances of: {value}");
+            }
+            else
+            {
+                Debug.Log($"No instances to remove");
+            }
         }
 
         [ContextMenu("Clear")]
-        private void Clear()
-        {
-            list.Clear();
-            Debug.Log("Cleared.");
-        }
+            private void Clear()
+            {
+                list.Clear();
+                Debug.Log("Cleared.");
+            }
         
         [ContextMenu("Sort")]
         private void Sort()
