@@ -24,6 +24,20 @@ namespace Lection3Controller.Source
             Debug.Log($"Added: {value}");
         }
 
+        [ContextMenu("Remove")]
+        private void Remove()
+        {
+            if (list.Contains(value))
+            {
+                list.Remove(value);
+                Debug.Log($"Removed: {value}");
+            }
+            else
+            {
+                Debug.Log($"No instance of {value} to remove");
+            }
+        }
+
         [ContextMenu("RemoveDuplicates")]
         private void RemoveDuplicates()
         {
@@ -56,14 +70,14 @@ namespace Lection3Controller.Source
             private void Clear()
             {
                 list.Clear();
-                Debug.Log("Cleared.");
+                Debug.Log("Cleared");
             }
         
         [ContextMenu("Sort")]
         private void Sort()
         {
             list.Sort();
-            Debug.Log("Sorted.");
+            Debug.Log("Sorted");
         }
     }
 }
