@@ -27,9 +27,8 @@ namespace Lection3Controller.Source
         [ContextMenu("Remove")]
         private void Remove()
         {
-            if (list.Contains(value))
+            if (list.Remove(value))
             {
-                list.Remove(value);
                 Debug.Log($"Removed: {value}");
             }
             else
