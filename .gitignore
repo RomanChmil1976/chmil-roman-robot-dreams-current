@@ -22,7 +22,7 @@
 *.mdb
 *.opendb
 *.VC.db
-*.tif
+#*.tif
 
 # Rider
 .idea/
