@@ -1,22 +1,23 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Weapon : MonoBehaviour
 {
-    public Transform firePoint; 
-    public GameObject bulletPrefab; 
-    public float bulletForce = 1100f; 
-    public float fireRate = 0.2f; 
+    public Transform firePoint;
+    public GameObject bulletPrefab;
+    public float bulletForce = 1100f;
+    public float fireRate = 0.2f;
     private float nextFireTime = 0f;
 
     void Start()
     {
-        Cursor.visible = false; 
-        Cursor.lockState = CursorLockMode.Locked; 
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
     {
-        if (Input.GetButton("Fire1") && Time.time >= nextFireTime)
+        if (Mouse.current.leftButton.isPressed && Time.time >= nextFireTime) 
         {
             Shoot();
             nextFireTime = Time.time + fireRate;
@@ -25,21 +26,18 @@ public class Weapon : MonoBehaviour
 
     void Shoot()
     {
-        Debug.Log(""); 
-
         if (bulletPrefab != null && firePoint != null)
         {
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-            Debug.Log("" + bullet.name); 
+            Debug.Log("Spawned bullet: " + bullet.name);
 
-            Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+            Rigidbody rb = bullet.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                rb.AddForce(firePoint.forward * bulletForce, ForceMode2D.Impulse);
-                Debug.Log("" + (firePoint.up * bulletForce));
+                rb.AddForce(firePoint.forward * bulletForce, ForceMode.Impulse);
             }
 
-            Destroy(bullet, 3f); 
+            Destroy(bullet, 3f);
         }
         else
         {
