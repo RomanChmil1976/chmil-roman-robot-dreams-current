@@ -766,14 +766,14 @@ RectTransform:
   m_GameObject: {fileID: 1465927232}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.78, y: 1.06, z: 1}
+  m_LocalScale: {x: 1.32, y: 0.81, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 399849263}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -260, y: 120}
+  m_AnchoredPosition: {x: -370, y: 150}
   m_SizeDelta: {x: 120, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1465927234
@@ -796,11 +796,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "W \u2013 Move forward\r\n\rS \u2013 Move backward\r\n\rA \u2013 Move left\r\n\rD
-    \u2013 Move right\r\n\rW / A / S / D + Alt \u2013 Sprint / Run\nSpace \u2013
-    Jump\nMouse (movement) \u2013 Rotate the camera (scene view)\r\n\n\rRight Mouse
-    Button (RMB) \u2013 Combat mode (on / off)\n\rLeft Mouse Button (LMB) \u2013
-    Fire weapon\nQ \u2013 Directed explosion"
+  m_text: "Controls:\r\n\n\tW \u2013 Move forward\r\n\tS \u2013 Move backward\r\n\tA
+    \u2013 Move left\r\n\tD \u2013 Move right\r\n\tW + Shift - Sprint (while moving)\r\n\tSpace
+    \u2013 Jump\r\n\tC \u2013 Crouch\r\n\tMouse \u2013 Look around\r\n\r\nCombat
+    Mode:\r\n\n\tQ \u2013 Toggle combat mode\r\n\t\tLMB \u2013 Fire weapon\r\n\t\tRMB
+    \u2013 Trigger explosion"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 9ad269c99dcf42b7aedefd83dd5a7b9d, type: 2}

@@ -37,6 +37,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Crouch"",
+                    ""type"": ""Button"",
+                    ""id"": ""65986bf8-aca7-47c1-9141-7d563ae4aa12"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""92eb4438-8ec0-4cfc-9a0c-e2a10b3dfd9d"",
@@ -44,15 +53,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Rotate"",
-                    ""type"": ""Value"",
-                    ""id"": ""33f71b6b-04dd-4c72-a05d-706d0e2a0bc4"",
-                    ""expectedControlType"": ""Axis"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Sprint"",
@@ -73,24 +73,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Fire"",
-                    ""type"": ""Button"",
-                    ""id"": ""8aa4b633-fcae-45fd-80eb-e1eaa8165574"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Crouch"",
-                    ""type"": ""Button"",
-                    ""id"": ""65986bf8-aca7-47c1-9141-7d563ae4aa12"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""MouseLook"",
                     ""type"": ""Value"",
                     ""id"": ""a086f1b0-2ab4-46af-808b-ec46079db785"",
@@ -100,9 +82,36 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Explode"",
+                    ""name"": ""Fire"",
                     ""type"": ""Button"",
-                    ""id"": ""6dd99b09-db42-4f59-8b02-6e103821ac0b"",
+                    ""id"": ""7be1ab40-2849-4f64-8bb3-fbd50c39e6b2"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Shoot"",
+                    ""type"": ""Button"",
+                    ""id"": ""3c65d306-dd3a-4995-aedb-404cc684956d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BackToMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""5ee2db42-4098-4c33-bf67-c12c705797df"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleMusic"",
+                    ""type"": ""Button"",
+                    ""id"": ""7507d9fa-18b2-43ff-9fb4-5a3016cd0660"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -177,39 +186,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""8c235f70-7f3d-4193-9635-da4c027d6683"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Rotate"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""e3867fb8-b029-433c-94c4-fec9d1bed208"",
-                    ""path"": ""<Keyboard>/q"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Rotate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""9e9916a3-0c9e-433e-81cb-88c258128e53"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Rotate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
                     ""id"": ""d439e985-f6dc-4a61-8f49-ef5dee5db604"",
                     ""path"": ""<Keyboard>/shift"",
@@ -233,23 +209,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""b9f327b2-0ef3-482a-ae0d-2b980edb66ff"",
-                    ""path"": ""<Mouse>/rightButton"",
+                    ""id"": ""40f38d9d-23e4-434b-913f-60771d3d1ecc"",
+                    ""path"": ""<Keyboard>/q"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ToggleAimMode"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""fbe2f64b-6bbd-4ad0-8aa8-11934f997fe5"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Fire"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -277,12 +242,45 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""96928221-f4cf-427c-9cc1-4ed7a54c707d"",
-                    ""path"": ""<Keyboard>/q"",
+                    ""id"": ""199c9133-4135-4f57-95dc-923547578eba"",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Explode"",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dfdbec21-ab9d-4e01-935d-ce4930e8ae4d"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0adc9044-b598-491a-b199-783546ca1fe1"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""BackToMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eb2c2a4f-712c-4898-832b-d2eef02809c4"",
+                    ""path"": ""<Keyboard>/m"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleMusic"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -311,14 +309,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
+        m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-        m_Player_Rotate = m_Player.FindAction("Rotate", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_ToggleAimMode = m_Player.FindAction("ToggleAimMode", throwIfNotFound: true);
-        m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
-        m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
         m_Player_MouseLook = m_Player.FindAction("MouseLook", throwIfNotFound: true);
-        m_Player_Explode = m_Player.FindAction("Explode", throwIfNotFound: true);
+        m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
+        m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
+        m_Player_BackToMenu = m_Player.FindAction("BackToMenu", throwIfNotFound: true);
+        m_Player_ToggleMusic = m_Player.FindAction("ToggleMusic", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -386,27 +385,29 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Movement;
+    private readonly InputAction m_Player_Crouch;
     private readonly InputAction m_Player_Jump;
-    private readonly InputAction m_Player_Rotate;
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_ToggleAimMode;
-    private readonly InputAction m_Player_Fire;
-    private readonly InputAction m_Player_Crouch;
     private readonly InputAction m_Player_MouseLook;
-    private readonly InputAction m_Player_Explode;
+    private readonly InputAction m_Player_Fire;
+    private readonly InputAction m_Player_Shoot;
+    private readonly InputAction m_Player_BackToMenu;
+    private readonly InputAction m_Player_ToggleMusic;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
         public PlayerActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
+        public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
-        public InputAction @Rotate => m_Wrapper.m_Player_Rotate;
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputAction @ToggleAimMode => m_Wrapper.m_Player_ToggleAimMode;
-        public InputAction @Fire => m_Wrapper.m_Player_Fire;
-        public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
         public InputAction @MouseLook => m_Wrapper.m_Player_MouseLook;
-        public InputAction @Explode => m_Wrapper.m_Player_Explode;
+        public InputAction @Fire => m_Wrapper.m_Player_Fire;
+        public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
+        public InputAction @BackToMenu => m_Wrapper.m_Player_BackToMenu;
+        public InputAction @ToggleMusic => m_Wrapper.m_Player_ToggleMusic;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -419,30 +420,33 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Movement.started += instance.OnMovement;
             @Movement.performed += instance.OnMovement;
             @Movement.canceled += instance.OnMovement;
+            @Crouch.started += instance.OnCrouch;
+            @Crouch.performed += instance.OnCrouch;
+            @Crouch.canceled += instance.OnCrouch;
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
-            @Rotate.started += instance.OnRotate;
-            @Rotate.performed += instance.OnRotate;
-            @Rotate.canceled += instance.OnRotate;
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
             @ToggleAimMode.started += instance.OnToggleAimMode;
             @ToggleAimMode.performed += instance.OnToggleAimMode;
             @ToggleAimMode.canceled += instance.OnToggleAimMode;
-            @Fire.started += instance.OnFire;
-            @Fire.performed += instance.OnFire;
-            @Fire.canceled += instance.OnFire;
-            @Crouch.started += instance.OnCrouch;
-            @Crouch.performed += instance.OnCrouch;
-            @Crouch.canceled += instance.OnCrouch;
             @MouseLook.started += instance.OnMouseLook;
             @MouseLook.performed += instance.OnMouseLook;
             @MouseLook.canceled += instance.OnMouseLook;
-            @Explode.started += instance.OnExplode;
-            @Explode.performed += instance.OnExplode;
-            @Explode.canceled += instance.OnExplode;
+            @Fire.started += instance.OnFire;
+            @Fire.performed += instance.OnFire;
+            @Fire.canceled += instance.OnFire;
+            @Shoot.started += instance.OnShoot;
+            @Shoot.performed += instance.OnShoot;
+            @Shoot.canceled += instance.OnShoot;
+            @BackToMenu.started += instance.OnBackToMenu;
+            @BackToMenu.performed += instance.OnBackToMenu;
+            @BackToMenu.canceled += instance.OnBackToMenu;
+            @ToggleMusic.started += instance.OnToggleMusic;
+            @ToggleMusic.performed += instance.OnToggleMusic;
+            @ToggleMusic.canceled += instance.OnToggleMusic;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -450,30 +454,33 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Movement.started -= instance.OnMovement;
             @Movement.performed -= instance.OnMovement;
             @Movement.canceled -= instance.OnMovement;
+            @Crouch.started -= instance.OnCrouch;
+            @Crouch.performed -= instance.OnCrouch;
+            @Crouch.canceled -= instance.OnCrouch;
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
-            @Rotate.started -= instance.OnRotate;
-            @Rotate.performed -= instance.OnRotate;
-            @Rotate.canceled -= instance.OnRotate;
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
             @ToggleAimMode.started -= instance.OnToggleAimMode;
             @ToggleAimMode.performed -= instance.OnToggleAimMode;
             @ToggleAimMode.canceled -= instance.OnToggleAimMode;
-            @Fire.started -= instance.OnFire;
-            @Fire.performed -= instance.OnFire;
-            @Fire.canceled -= instance.OnFire;
-            @Crouch.started -= instance.OnCrouch;
-            @Crouch.performed -= instance.OnCrouch;
-            @Crouch.canceled -= instance.OnCrouch;
             @MouseLook.started -= instance.OnMouseLook;
             @MouseLook.performed -= instance.OnMouseLook;
             @MouseLook.canceled -= instance.OnMouseLook;
-            @Explode.started -= instance.OnExplode;
-            @Explode.performed -= instance.OnExplode;
-            @Explode.canceled -= instance.OnExplode;
+            @Fire.started -= instance.OnFire;
+            @Fire.performed -= instance.OnFire;
+            @Fire.canceled -= instance.OnFire;
+            @Shoot.started -= instance.OnShoot;
+            @Shoot.performed -= instance.OnShoot;
+            @Shoot.canceled -= instance.OnShoot;
+            @BackToMenu.started -= instance.OnBackToMenu;
+            @BackToMenu.performed -= instance.OnBackToMenu;
+            @BackToMenu.canceled -= instance.OnBackToMenu;
+            @ToggleMusic.started -= instance.OnToggleMusic;
+            @ToggleMusic.performed -= instance.OnToggleMusic;
+            @ToggleMusic.canceled -= instance.OnToggleMusic;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -503,13 +510,14 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnMovement(InputAction.CallbackContext context);
+        void OnCrouch(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnRotate(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnToggleAimMode(InputAction.CallbackContext context);
-        void OnFire(InputAction.CallbackContext context);
-        void OnCrouch(InputAction.CallbackContext context);
         void OnMouseLook(InputAction.CallbackContext context);
-        void OnExplode(InputAction.CallbackContext context);
+        void OnFire(InputAction.CallbackContext context);
+        void OnShoot(InputAction.CallbackContext context);
+        void OnBackToMenu(InputAction.CallbackContext context);
+        void OnToggleMusic(InputAction.CallbackContext context);
     }
 }

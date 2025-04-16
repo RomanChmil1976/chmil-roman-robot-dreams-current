@@ -1,5 +1,9 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+
+//using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
 public class UnifiedPlayerController : MonoBehaviour
@@ -49,6 +53,13 @@ public class UnifiedPlayerController : MonoBehaviour
     [SerializeField] private float explosionDistance = 5f;
     [SerializeField] private float explosionLifetime = 5f;
     [SerializeField] private float heightOffset = 1.0f; // насколько выше земли будет взрыв
+    
+    [Header("Music Toggle")]
+    [SerializeField] private AudioSource musicAudioSource;
+    [SerializeField] private Image musicToggleImage;
+    [SerializeField] private Sprite musicOnIcon;
+    [SerializeField] private Sprite musicOffIcon;
+    [SerializeField] private MusicToggle musicToggle;
 
 
     private float _currentZoom;
@@ -81,10 +92,14 @@ public class UnifiedPlayerController : MonoBehaviour
         _input.Player.Sprint.started += ctx => _isSprinting = true;
         _input.Player.Sprint.canceled += ctx => _isSprinting = false;
         _input.Player.ToggleAimMode.performed += ctx => ToggleAimMode();
-        _input.Player.Fire.performed += ctx => Fire();
         _input.Player.Crouch.performed += ctx => ToggleCrouch();
         _input.Player.MouseLook.performed += ctx => _mouseDelta = ctx.ReadValue<Vector2>();
-        _input.Player.Explode.performed += ctx => TriggerExplosion();
+        _input.Player.Fire.performed += ctx => Fire();             // ЛКМ
+        _input.Player.Shoot.performed += ctx => TriggerExplosion(); // ПКМ
+        _input.Player.BackToMenu.performed += ctx => GoBackToMainMenu();
+        _input.Player.ToggleMusic.performed += ctx => ToggleMusic();
+
+
 
     }
 
@@ -104,8 +119,19 @@ public class UnifiedPlayerController : MonoBehaviour
         if (yawAnchor == null || pitchAnchor == null)
             Debug.LogWarning("❗ Не назначен yawAnchor или pitchAnchor!");
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        if (SceneManager.GetActiveScene().name == "Scene_4_Game_1")
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+
+        
+        if (musicAudioSource == null)
+            Debug.LogWarning("🎵 Music AudioSource is not assigned!");
+
+        if (musicToggleImage == null)
+            Debug.LogWarning("🎵 Music Toggle Image is not assigned!");
+
     }
 
     private void Update()
@@ -332,7 +358,19 @@ public class UnifiedPlayerController : MonoBehaviour
         Debug.Log($"💥 Взрыв с физическим воздействием: {explosionPoint}");
     }
 
+    private void GoBackToMainMenu()
+    {
+        SceneManager.LoadScene("Scene_1.2_Pause");
+        Debug.Log("🔁 Переключение на меню паузы");
+    }
 
+    private void ToggleMusic()
+    {
+        if (musicToggle != null)
+        {
+            musicToggle.ToggleMusic();
+        }
+    }
 
 
     private void OnEnable() => _input.Enable();

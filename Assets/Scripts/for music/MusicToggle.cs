@@ -3,48 +3,43 @@ using UnityEngine.UI;
 
 public class MusicToggle : MonoBehaviour
 {
-    public Sprite musicOnIcon;  // Иконка "звук включен"
-    public Sprite musicOffIcon; // Иконка "звук выключен"
-    private Image buttonImage;   // Ссылка на Image кнопки
-    private bool isMuted = false; // Флаг состояния звука
+    [Header("Icons")]
+    [SerializeField] private Sprite musicOnIcon;
+    [SerializeField] private Sprite musicOffIcon;
+
+    private Image buttonImage;
     private AudioSource audioSource;
 
-    private void Start()
+    private void Awake()
     {
+        // Получаем Image с кнопки
         buttonImage = GetComponent<Image>();
-
         if (buttonImage == null)
         {
-            Debug.LogError("❌ Ошибка: Компонент Image не найден на кнопке!");
+            Debug.LogError("❌ MusicToggle: Image component not found!");
             enabled = false;
             return;
         }
 
+        // Автоматически ищем BackgroundMusic → AudioSource
         audioSource = FindObjectOfType<BackgroundMusic>()?.GetComponent<AudioSource>();
-
         if (audioSource == null)
         {
-            Debug.LogWarning("⚠ Нет BackgroundMusic — отключаем MusicToggle");
+            Debug.LogWarning("⚠ MusicToggle: BackgroundMusic not found!");
             enabled = false;
             return;
         }
 
-        isMuted = audioSource.mute;
+        // Сразу обновляем иконку по текущему состоянию
         UpdateButtonIcon();
     }
-
 
     public void ToggleMusic()
     {
         if (audioSource == null) return;
 
-        isMuted = !isMuted; // Инвертируем состояние
-        audioSource.mute = isMuted; // Включаем или отключаем звук
-
-        // Выводим сообщение в консоль
-        Debug.Log(isMuted ? "🔇 Музыка заглушена (Mute)!" : "🔊 Музыка включена (Unmute)!");
-
-        // Обновляем иконку
+        audioSource.mute = !audioSource.mute;
+        Debug.Log(audioSource.mute ? "🔇 Music muted" : "🔊 Music unmuted");
         UpdateButtonIcon();
     }
 
@@ -52,6 +47,6 @@ public class MusicToggle : MonoBehaviour
     {
         if (buttonImage == null) return;
 
-        buttonImage.sprite = isMuted ? musicOffIcon : musicOnIcon;
+        buttonImage.sprite = audioSource.mute ? musicOffIcon : musicOnIcon;
     }
 }
