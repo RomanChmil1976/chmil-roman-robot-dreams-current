@@ -26,6 +26,8 @@ public class UnifiedPlayerController : MonoBehaviour
     [SerializeField] private float maxZoom = 10f;
     [SerializeField] private float normalZoom = 5f;
     [SerializeField] private float cameraSmooth = 10f;
+    [SerializeField] private Camera playerCamera;
+
 
     [Header("Crosshair & Body")]
     [SerializeField] private GameObject crosshairCanvas;
@@ -76,6 +78,8 @@ public class UnifiedPlayerController : MonoBehaviour
     private Vector2 _smoothedMouseDelta;
     private float _xRotation;
     private float _initialBodyY;
+    private Vector2 _scrollDelta;
+
 
     private PlayerInputActions _input;
     ///private PlayerInputActions _input = new PlayerInputActions();
@@ -98,6 +102,9 @@ public class UnifiedPlayerController : MonoBehaviour
         _input.Player.Shoot.performed += ctx => TriggerExplosion(); // ПКМ
         _input.Player.BackToMenu.performed += ctx => GoBackToMainMenu();
         _input.Player.ToggleMusic.performed += ctx => ToggleMusic();
+        _input.Player.CameraZoom.performed += ctx => _scrollDelta = ctx.ReadValue<Vector2>();
+        _input.Player.CameraZoom.canceled += ctx => _scrollDelta = Vector2.zero;
+
 
 
 
@@ -143,14 +150,15 @@ public class UnifiedPlayerController : MonoBehaviour
         UpdateAnimations();
         HandleCameraControl();
         UpdateAimTargetPosition();
-        
         _mouseDelta = Vector2.zero;
+        
+        Debug.Log($"🖱️ Scroll delta: {_scrollDelta.y}");
     }
 
     private void HandleMovement()
     {
-        Vector3 camForward = Camera.main.transform.forward;
-        Vector3 camRight = Camera.main.transform.right;
+        Vector3 camForward = playerCamera.transform.forward;
+        Vector3 camRight = playerCamera.transform.right;
         camForward.y = 0;
         camRight.y = 0;
         camForward.Normalize();
@@ -263,10 +271,12 @@ public class UnifiedPlayerController : MonoBehaviour
 
     private void HandleCameraControl()
     {
+        float scroll = _scrollDelta.y;
+
         Transform target = _isAiming ? aimTarget : followTarget;
         if (target == null) return;
 
-        float scroll = Input.mouseScrollDelta.y;
+        //float scroll = Input.mouseScrollDelta.y;
         if (!_isAiming && Mathf.Abs(scroll) > 0.01f)
         {
             _currentZoom -= scroll * zoomSpeed;
@@ -279,11 +289,12 @@ public class UnifiedPlayerController : MonoBehaviour
         // ⚠️ Заменили target.forward на pitchAnchor.forward, чтобы камера смотрела туда же, куда повёрнут pitchAnchor
         Vector3 offsetPos = -pitchAnchor.forward * _currentZoom + Vector3.up * offset.y;
         Vector3 desiredPos = target.position + offsetPos;
-        Vector3 smoothedPos = Vector3.Lerp(Camera.main.transform.position, desiredPos, Time.deltaTime * cameraSmooth);
+        Vector3 smoothedPos = Vector3.Lerp(playerCamera.transform.position, desiredPos, Time.deltaTime * cameraSmooth);
 
-        Camera.main.transform.position = smoothedPos;
+        playerCamera.transform.position = smoothedPos;
 
-        Camera.main.transform.LookAt(target);
+
+        playerCamera.transform.LookAt(target);
     }
 
 
@@ -315,9 +326,11 @@ public class UnifiedPlayerController : MonoBehaviour
     private void TriggerExplosion()
     {
         if (!_isAiming) return;
-        if (Camera.main == null || explosionPrefab == null) return;
+        if (playerCamera == null || explosionPrefab == null) return;
 
-        Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+
+        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+
 
         Vector3 explosionPoint;
 

@@ -51,7 +51,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "MouseLook",
+                    "name": "CameraZoom",
                     "type": "Value",
                     "id": "a086f1b0-2ab4-46af-808b-ec46079db785",
                     "expectedControlType": "Vector2",
@@ -94,6 +94,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "MouseLook",
+                    "type": "Value",
+                    "id": "d03cd0d9-111f-4ed2-8225-e37d908dc86e",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -210,11 +219,11 @@
                 {
                     "name": "",
                     "id": "6b58c66c-e47c-4b92-9b5f-dfeeaeb5482b",
-                    "path": "<Mouse>/delta",
+                    "path": "<Mouse>/scroll",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "MouseLook",
+                    "action": "CameraZoom",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -259,6 +268,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "ToggleMusic",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7025a2cc-16a3-4caf-965a-d76668958d85",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseLook",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

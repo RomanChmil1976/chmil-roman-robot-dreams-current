@@ -798,9 +798,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Controls:\r\n\n\tW \u2013 Move forward\r\n\tS \u2013 Move backward\r\n\tA
     \u2013 Move left\r\n\tD \u2013 Move right\r\n\tW + Shift - Sprint (while moving)\r\n\tSpace
-    \u2013 Jump\r\n\tC \u2013 Crouch\r\n\tMouse \u2013 Look around\r\n\r\nCombat
-    Mode:\r\n\n\tQ \u2013 Toggle combat mode\r\n\t\tLMB \u2013 Fire weapon\r\n\t\tRMB
-    \u2013 Trigger explosion"
+    \u2013 Jump\r\n\tC \u2013 Crouch\r\n\tMouse \u2013 Look around\r\n               
+    Mouse Scroll - Zoom the camera\n\r\nCombat Mode:\r\n\n\tQ \u2013 Toggle combat
+    mode\r\n\t\tLMB \u2013 Fire weapon\r\n\t\tRMB \u2013 Trigger explosion"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 9ad269c99dcf42b7aedefd83dd5a7b9d, type: 2}

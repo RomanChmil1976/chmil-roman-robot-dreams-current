@@ -9,17 +9,21 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private float bulletSpeed = 40f;
     [SerializeField] private float lifeTime = 5f;
     [SerializeField] private float spawnOffset = 5.0f; /// расстояние вылета пули
+    
+    [Header("Camera Settings")]
+    [SerializeField] private Camera playerCamera;
+
                                                        
     public void Fire2()
     {
-        if (bulletPrefab == null || firePoint == null || Camera.main == null)
+        if (bulletPrefab == null || firePoint == null || playerCamera == null)
         {
             Debug.LogWarning("❌ Не хватает компонентов!");
             return;
         }
 
         // Луч из центра экрана
-        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         Vector3 direction;
 
         if (Physics.Raycast(ray, out RaycastHit hit, 100f))

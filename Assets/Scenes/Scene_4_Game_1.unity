@@ -5860,6 +5860,7 @@ MonoBehaviour:
   maxZoom: 10
   normalZoom: 5
   cameraSmooth: 10
+  playerCamera: {fileID: 963194227}
   crosshairCanvas: {fileID: 422582333}
   mainPlayerBody: {fileID: 843466956}
   standingHeight: 2
@@ -10417,6 +10418,7 @@ MonoBehaviour:
   bulletSpeed: 120
   lifeTime: 10
   spawnOffset: 2
+  playerCamera: {fileID: 963194227}
 --- !u!1001 &1664873145
 PrefabInstance:
   m_ObjectHideFlags: 0

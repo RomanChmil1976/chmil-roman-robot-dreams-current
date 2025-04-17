@@ -73,7 +73,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""MouseLook"",
+                    ""name"": ""CameraZoom"",
                     ""type"": ""Value"",
                     ""id"": ""a086f1b0-2ab4-46af-808b-ec46079db785"",
                     ""expectedControlType"": ""Vector2"",
@@ -116,6 +116,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MouseLook"",
+                    ""type"": ""Value"",
+                    ""id"": ""d03cd0d9-111f-4ed2-8225-e37d908dc86e"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -232,11 +241,11 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""6b58c66c-e47c-4b92-9b5f-dfeeaeb5482b"",
-                    ""path"": ""<Mouse>/delta"",
+                    ""path"": ""<Mouse>/scroll"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MouseLook"",
+                    ""action"": ""CameraZoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -283,6 +292,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""ToggleMusic"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7025a2cc-16a3-4caf-965a-d76668958d85"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseLook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -313,11 +333,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_ToggleAimMode = m_Player.FindAction("ToggleAimMode", throwIfNotFound: true);
-        m_Player_MouseLook = m_Player.FindAction("MouseLook", throwIfNotFound: true);
+        m_Player_CameraZoom = m_Player.FindAction("CameraZoom", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
         m_Player_BackToMenu = m_Player.FindAction("BackToMenu", throwIfNotFound: true);
         m_Player_ToggleMusic = m_Player.FindAction("ToggleMusic", throwIfNotFound: true);
+        m_Player_MouseLook = m_Player.FindAction("MouseLook", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -389,11 +410,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_ToggleAimMode;
-    private readonly InputAction m_Player_MouseLook;
+    private readonly InputAction m_Player_CameraZoom;
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Shoot;
     private readonly InputAction m_Player_BackToMenu;
     private readonly InputAction m_Player_ToggleMusic;
+    private readonly InputAction m_Player_MouseLook;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -403,11 +425,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputAction @ToggleAimMode => m_Wrapper.m_Player_ToggleAimMode;
-        public InputAction @MouseLook => m_Wrapper.m_Player_MouseLook;
+        public InputAction @CameraZoom => m_Wrapper.m_Player_CameraZoom;
         public InputAction @Fire => m_Wrapper.m_Player_Fire;
         public InputAction @Shoot => m_Wrapper.m_Player_Shoot;
         public InputAction @BackToMenu => m_Wrapper.m_Player_BackToMenu;
         public InputAction @ToggleMusic => m_Wrapper.m_Player_ToggleMusic;
+        public InputAction @MouseLook => m_Wrapper.m_Player_MouseLook;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -432,9 +455,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @ToggleAimMode.started += instance.OnToggleAimMode;
             @ToggleAimMode.performed += instance.OnToggleAimMode;
             @ToggleAimMode.canceled += instance.OnToggleAimMode;
-            @MouseLook.started += instance.OnMouseLook;
-            @MouseLook.performed += instance.OnMouseLook;
-            @MouseLook.canceled += instance.OnMouseLook;
+            @CameraZoom.started += instance.OnCameraZoom;
+            @CameraZoom.performed += instance.OnCameraZoom;
+            @CameraZoom.canceled += instance.OnCameraZoom;
             @Fire.started += instance.OnFire;
             @Fire.performed += instance.OnFire;
             @Fire.canceled += instance.OnFire;
@@ -447,6 +470,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @ToggleMusic.started += instance.OnToggleMusic;
             @ToggleMusic.performed += instance.OnToggleMusic;
             @ToggleMusic.canceled += instance.OnToggleMusic;
+            @MouseLook.started += instance.OnMouseLook;
+            @MouseLook.performed += instance.OnMouseLook;
+            @MouseLook.canceled += instance.OnMouseLook;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -466,9 +492,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @ToggleAimMode.started -= instance.OnToggleAimMode;
             @ToggleAimMode.performed -= instance.OnToggleAimMode;
             @ToggleAimMode.canceled -= instance.OnToggleAimMode;
-            @MouseLook.started -= instance.OnMouseLook;
-            @MouseLook.performed -= instance.OnMouseLook;
-            @MouseLook.canceled -= instance.OnMouseLook;
+            @CameraZoom.started -= instance.OnCameraZoom;
+            @CameraZoom.performed -= instance.OnCameraZoom;
+            @CameraZoom.canceled -= instance.OnCameraZoom;
             @Fire.started -= instance.OnFire;
             @Fire.performed -= instance.OnFire;
             @Fire.canceled -= instance.OnFire;
@@ -481,6 +507,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @ToggleMusic.started -= instance.OnToggleMusic;
             @ToggleMusic.performed -= instance.OnToggleMusic;
             @ToggleMusic.canceled -= instance.OnToggleMusic;
+            @MouseLook.started -= instance.OnMouseLook;
+            @MouseLook.performed -= instance.OnMouseLook;
+            @MouseLook.canceled -= instance.OnMouseLook;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -514,10 +543,11 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnToggleAimMode(InputAction.CallbackContext context);
-        void OnMouseLook(InputAction.CallbackContext context);
+        void OnCameraZoom(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
         void OnBackToMenu(InputAction.CallbackContext context);
         void OnToggleMusic(InputAction.CallbackContext context);
+        void OnMouseLook(InputAction.CallbackContext context);
     }
 }
