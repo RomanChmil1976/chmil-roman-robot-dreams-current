@@ -10,11 +10,20 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private float lifeTime = 5f;
     [SerializeField] private float spawnOffset = 5.0f; /// расстояние вылета пули
     
+    public enum ShootingMode
+    {
+        Raycast,
+        SphereCast
+    }
+    
+    [Header("Shooting Settings")]
+    [SerializeField] private ShootingMode shootingMode = ShootingMode.Raycast;
+    [SerializeField] private float sphereCastRadius = 0.5f;
+    
     [Header("Camera Settings")]
     [SerializeField] private Camera playerCamera;
 
-                                                       
-    public void Fire2()
+   public void Fire2()
     {
         if (bulletPrefab == null || firePoint == null || playerCamera == null)
         {
@@ -22,23 +31,37 @@ public class WeaponController : MonoBehaviour
             return;
         }
 
-        // Луч из центра экрана
         Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         Vector3 direction;
 
-        if (Physics.Raycast(ray, out RaycastHit hit, 100f))
+        bool hasHit = false;
+        RaycastHit hit = new RaycastHit();
+
+        // Выбор режима стрельбы
+        switch (shootingMode)
         {
-            // Стреляем ТУДА, КУДА СМОТРИТ ПРИЦЕЛ
+            case ShootingMode.Raycast:
+                hasHit = Physics.Raycast(ray, out hit, 100f);
+                break;
+            case ShootingMode.SphereCast:
+                hasHit = Physics.SphereCast(ray, sphereCastRadius, out hit, 100f);
+                break;
+        }
+
+        // Направление стрельбы
+        if (hasHit)
+        {
             direction = (hit.point - firePoint.position).normalized;
+            Debug.Log($"🎯 Hit {hit.collider.name} at {hit.point}");
         }
         else
         {
-            // Иначе просто по направлению взгляда
             Vector3 targetPoint = ray.GetPoint(100f);
             direction = (targetPoint - firePoint.position).normalized;
+            Debug.Log("❌ Missed. Shooting forward.");
         }
 
-        // Смещаем точку вылета немного вперёд от оружия
+        // Точка вылета пули
         Vector3 spawnPosition = firePoint.position + direction * 0.1f;
 
         GameObject bullet = Instantiate(bulletPrefab, spawnPosition, Quaternion.LookRotation(direction));
@@ -52,8 +75,7 @@ public class WeaponController : MonoBehaviour
         }
 
         Destroy(bullet, lifeTime);
-        Debug.DrawRay(firePoint.position, direction * 20f, Color.magenta, 2f);
+        Debug.DrawRay(firePoint.position, direction * 20f, Color.cyan, 2f);
     }
-
 
 }

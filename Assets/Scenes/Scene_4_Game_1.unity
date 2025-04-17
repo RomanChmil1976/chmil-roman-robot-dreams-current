@@ -10418,6 +10418,8 @@ MonoBehaviour:
   bulletSpeed: 120
   lifeTime: 10
   spawnOffset: 2
+  shootingMode: 1
+  sphereCastRadius: 2
   playerCamera: {fileID: 963194227}
 --- !u!1001 &1664873145
 PrefabInstance:
