@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    // Названия сцен (избегаем опечаток)
+    // Названия сцен
     private const string SETTINGS_SCENE = "Scene_2_SettingsMenu";
     private const string CONTROLS_SCENE = "Scene_3_ControlsMenu";
     private const string GAME_SCENE = "Scene_4_Game_1";

@@ -85,7 +85,7 @@ public class UnifiedPlayerController : MonoBehaviour
     ///private PlayerInputActions _input = new PlayerInputActions();
 
     private CharacterController _controller;
-    private Animator _animator;
+    //private Animator _animator;
 
     private void Awake()
     {
@@ -113,7 +113,7 @@ public class UnifiedPlayerController : MonoBehaviour
     private void Start()
     {
         _controller = GetComponent<CharacterController>();
-        _animator = GetComponentInChildren<Animator>();
+        //_animator = GetComponentInChildren<Animator>();
         _defaultZoom = offset.magnitude;
         _currentZoom = _defaultZoom;
 
@@ -147,12 +147,12 @@ public class UnifiedPlayerController : MonoBehaviour
         ApplyGravity();
         ApplyMovement();
         HandleMouseLook();
-        UpdateAnimations();
+        //UpdateAnimations();
         HandleCameraControl();
         UpdateAimTargetPosition();
         _mouseDelta = Vector2.zero;
         
-        Debug.Log($"🖱️ Scroll delta: {_scrollDelta.y}");
+        //Debug.Log($"🖱️ Scroll delta: {_scrollDelta.y}");
     }
 
     private void HandleMovement()
@@ -244,13 +244,13 @@ public class UnifiedPlayerController : MonoBehaviour
     }
 
 
-    private void UpdateAnimations()
-    {
-        if (_animator == null) return;
-        float speed = new Vector3(_moveDirection.x, 0f, _moveDirection.z).magnitude;
-        _animator.SetFloat("Speed", speed);
-        _animator.SetBool("IsJumping", !_controller.isGrounded);
-    }
+    // private void UpdateAnimations()
+    // {
+    //     if (_animator == null) return;
+    //     float speed = new Vector3(_moveDirection.x, 0f, _moveDirection.z).magnitude;
+    //     _animator.SetFloat("Speed", speed);
+    //     _animator.SetBool("IsJumping", !_controller.isGrounded);
+    // }
 
     private void ToggleAimMode()
     {
@@ -286,7 +286,7 @@ public class UnifiedPlayerController : MonoBehaviour
         if (_isAiming)
             _currentZoom = Mathf.Lerp(_currentZoom, normalZoom, Time.deltaTime * 10f);
 
-        // ⚠️ Заменили target.forward на pitchAnchor.forward, чтобы камера смотрела туда же, куда повёрнут pitchAnchor
+        //  Заменил target.forward на pitchAnchor.forward, чтобы камера смотрела туда же, куда повёрнут pitchAnchor
         Vector3 offsetPos = -pitchAnchor.forward * _currentZoom + Vector3.up * offset.y;
         Vector3 desiredPos = target.position + offsetPos;
         Vector3 smoothedPos = Vector3.Lerp(playerCamera.transform.position, desiredPos, Time.deltaTime * cameraSmooth);
@@ -354,7 +354,7 @@ public class UnifiedPlayerController : MonoBehaviour
         GameObject explosion = Instantiate(explosionPrefab, explosionPoint, Quaternion.identity);
         Destroy(explosion, explosionLifetime);
 
-        // 🔥 Взрывная сила
+        // Взрывная сила
         float explosionForce = 500f;
         float explosionRadius = 5f;
 
@@ -368,13 +368,13 @@ public class UnifiedPlayerController : MonoBehaviour
             }
         }
 
-        Debug.Log($"💥 Взрыв с физическим воздействием: {explosionPoint}");
+        Debug.Log($"Взрыв с физическим воздействием: {explosionPoint}");
     }
 
     private void GoBackToMainMenu()
     {
         SceneManager.LoadScene("Scene_1.2_Pause");
-        Debug.Log("🔁 Переключение на меню паузы");
+        Debug.Log("Переключение на меню паузы");
     }
 
     private void ToggleMusic()
