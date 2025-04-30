@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections;
 
 public class Target : MonoBehaviour
@@ -15,6 +16,9 @@ public class Target : MonoBehaviour
 
     [SerializeField] private HealthBar healthBar;
 
+    //  Новый ивент — уведомляет, что цель уничтожена
+    public event Action OnDeath;
+
     void Start()
     {
         currentHealth = maxHealth;
@@ -25,6 +29,12 @@ public class Target : MonoBehaviour
         colliders = GetComponentsInChildren<Collider>();
 
         UpdateHealthUI();
+
+        //  Подписка на событие смерти (одноразовая, но можно через ScoreManager.RegisterTarget(this))
+        if (ScoreManager.Instance != null)
+        {
+            OnDeath += () => ScoreManager.Instance.AddScore(1);
+        }
     }
 
     public void TakeDamage(float amount)
@@ -48,23 +58,20 @@ public class Target : MonoBehaviour
     {
         DisableTarget();
 
-        if (ScoreManager.Instance != null)
-            ScoreManager.Instance.AddScore(1);
+        //  Удалено: ScoreManager.Instance.AddScore(1);
+        //  Вызов события смерти (если есть подписчики)
+        OnDeath?.Invoke();
 
         yield return new WaitForSecondsRealtime(respawnTime);
 
         Respawn();
     }
 
-
     void DisableTarget()
     {
         foreach (var r in renderers) r.enabled = false;
         foreach (var c in colliders) c.enabled = false;
         if (healthBar != null) healthBar.gameObject.SetActive(false);
-        
-        //ScoreManager.Instance.AddScore(1);
-
     }
 
     void Respawn()
@@ -75,6 +82,7 @@ public class Target : MonoBehaviour
 
         foreach (var r in renderers) r.enabled = true;
         foreach (var c in colliders) c.enabled = true;
+
         if (healthBar != null)
         {
             healthBar.gameObject.SetActive(true);
