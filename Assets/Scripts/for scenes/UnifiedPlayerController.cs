@@ -86,6 +86,10 @@ public class UnifiedPlayerController : MonoBehaviour
 
     private CharacterController _controller;
     //private Animator _animator;
+    
+    private bool _isPaused;
+    public void SetPaused(bool value) => _isPaused = value;
+
 
     private void Awake()
     {
@@ -100,7 +104,7 @@ public class UnifiedPlayerController : MonoBehaviour
         _input.Player.MouseLook.performed += ctx => _mouseDelta = ctx.ReadValue<Vector2>();
         _input.Player.Fire.performed += ctx => Fire();             // ЛКМ
         _input.Player.Shoot.performed += ctx => TriggerExplosion(); // ПКМ
-        _input.Player.BackToMenu.performed += ctx => GoBackToMainMenu();
+        _input.Player.BackToMenu.performed += ctx => GoBackToMainMenu(); // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         _input.Player.ToggleMusic.performed += ctx => ToggleMusic();
         _input.Player.CameraZoom.performed += ctx => _scrollDelta = ctx.ReadValue<Vector2>();
         _input.Player.CameraZoom.canceled += ctx => _scrollDelta = Vector2.zero;
@@ -143,17 +147,17 @@ public class UnifiedPlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (_isPaused) return;
+
         HandleMovement();
         ApplyGravity();
         ApplyMovement();
         HandleMouseLook();
-        //UpdateAnimations();
         HandleCameraControl();
         UpdateAimTargetPosition();
         _mouseDelta = Vector2.zero;
-        
-        //Debug.Log($"🖱️ Scroll delta: {_scrollDelta.y}");
     }
+
 
     private void HandleMovement()
     {
@@ -371,9 +375,10 @@ public class UnifiedPlayerController : MonoBehaviour
         Debug.Log($"Взрыв с физическим воздействием: {explosionPoint}");
     }
 
+    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     private void GoBackToMainMenu()
     {
-        SceneManager.LoadScene("Scene_1.2_Pause");
+        PauseMenuUI.Instance.TogglePause();
         Debug.Log("Переключение на меню паузы");
     }
 
