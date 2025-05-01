@@ -1602,6 +1602,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bot(2)
       objectReference: {fileID: 0}
+    - target: {fileID: 531078476962092967, guid: e4d7726e528bf5149ae61cbe3a0b311f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3518651714468925011, guid: e4d7726e528bf5149ae61cbe3a0b311f,
         type: 3}
       propertyPath: m_Enabled
@@ -3320,6 +3325,7 @@ GameObject:
   - component: {fileID: 805261015}
   - component: {fileID: 805261014}
   - component: {fileID: 805261013}
+  - component: {fileID: 805261017}
   m_Layer: 5
   m_Name: UIAlwaysCanvas
   m_TagString: Untagged
@@ -3412,6 +3418,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &805261017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805261012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dabe7e0421224494eaf3a6b4650daf77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 1306420817}
 --- !u!4 &814479145 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2410354202282725211, guid: e6d580d723d926a458c99b61979e4d73,
@@ -6287,7 +6306,6 @@ GameObject:
   - component: {fileID: 1306420816}
   - component: {fileID: 1306420818}
   - component: {fileID: 1306420817}
-  - component: {fileID: 1306420819}
   m_Layer: 5
   m_Name: ScoreText
   m_TagString: Untagged
@@ -6411,19 +6429,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1306420815}
   m_CullTransparentMesh: 1
---- !u!114 &1306420819
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1306420815}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dabe7e0421224494eaf3a6b4650daf77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scoreText: {fileID: 1306420817}
 --- !u!4 &1307011116 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2410354202282725211, guid: e6d580d723d926a458c99b61979e4d73,
@@ -10555,6 +10560,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Bot (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 531078476962092967, guid: e4d7726e528bf5149ae61cbe3a0b311f,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3518651714468925011, guid: e4d7726e528bf5149ae61cbe3a0b311f,
         type: 3}

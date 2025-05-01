@@ -4,6 +4,8 @@ using System.Collections;
 
 public class Target : MonoBehaviour
 {
+    [NonSerialized] public Action _onDeathScoreCallback;
+
     public float maxHealth = 100f;
     public float respawnTime = 3f;
     private float currentHealth;
@@ -14,10 +16,11 @@ public class Target : MonoBehaviour
     private Renderer[] renderers;
     private Collider[] colliders;
 
-    [SerializeField] private HealthBar healthBar;
-
-    //  Новый ивент — уведомляет, что цель уничтожена
+    public event Action onSpawn;
+    public event Action<int> onHealthChanged;
     public event Action OnDeath;
+
+    [SerializeField] private HealthBar healthBar;
 
     void Start()
     {
@@ -29,23 +32,27 @@ public class Target : MonoBehaviour
         colliders = GetComponentsInChildren<Collider>();
 
         UpdateHealthUI();
+    }
 
-        //  Подписка на событие смерти (одноразовая, но можно через ScoreManager.RegisterTarget(this))
-        if (ScoreManager.Instance != null)
-        {
-            OnDeath += () => ScoreManager.Instance.AddScore(1);
-        }
+    private void OnEnable()
+    {
+        TargetManager.Instance?.Register(this);
+        onSpawn?.Invoke();
+    }
+
+    private void OnDisable()
+    {
+        TargetManager.Instance?.Unregister(this);
     }
 
     public void TakeDamage(float amount)
     {
         currentHealth -= amount;
         UpdateHealthUI();
+        onHealthChanged?.Invoke((int)currentHealth);
 
         if (currentHealth <= 0f)
-        {
             StartCoroutine(RespawnRoutine());
-        }
     }
 
     void UpdateHealthUI()
@@ -57,13 +64,11 @@ public class Target : MonoBehaviour
     IEnumerator RespawnRoutine()
     {
         DisableTarget();
-
-        //  Удалено: ScoreManager.Instance.AddScore(1);
-        //  Вызов события смерти (если есть подписчики)
+        ScoreManager.Instance?.AddScore(1);
         OnDeath?.Invoke();
+        TargetManager.Instance?.Unregister(this);
 
         yield return new WaitForSecondsRealtime(respawnTime);
-
         Respawn();
     }
 
@@ -79,6 +84,7 @@ public class Target : MonoBehaviour
         transform.position = initialPosition;
         transform.rotation = initialRotation;
         currentHealth = maxHealth;
+        onSpawn?.Invoke();
 
         foreach (var r in renderers) r.enabled = true;
         foreach (var c in colliders) c.enabled = true;
@@ -88,7 +94,5 @@ public class Target : MonoBehaviour
             healthBar.gameObject.SetActive(true);
             UpdateHealthUI();
         }
-
-        Debug.Log($"{gameObject.name} respawned!");
     }
 }
