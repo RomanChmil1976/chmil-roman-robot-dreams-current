@@ -18,14 +18,12 @@ public class DirectionalLightManager : MonoBehaviour
             return;
         }
 
-        // Получаем компонент Light
         directionalLight = GetComponent<Light>();
         if (directionalLight == null)
         {
-            Debug.LogError("❌ Ошибка: На Directional Light нет компонента Light!");
+ 
         }
 
-        // Загружаем сохраненную яркость
         float brightness = PlayerPrefs.GetFloat("DayNightLevel", 100f) / 100f;
         SetBrightness(brightness);
     }

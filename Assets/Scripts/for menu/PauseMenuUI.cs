@@ -17,7 +17,7 @@ public class PauseMenuUI : MonoBehaviour
         else
             Destroy(gameObject);
 
-        SetPauseCanvas(false); // Скрываем паузу при старте
+        SetPauseCanvas(false);
     }
 
     private void Start()
@@ -27,7 +27,6 @@ public class PauseMenuUI : MonoBehaviour
 
     public void TogglePause()
     {
-        Debug.Log("🟡 TogglePause вызван, текущее состояние isPaused = " + isPaused);
 
         if (isPaused)
             ResumeGame();
@@ -54,18 +53,14 @@ public class PauseMenuUI : MonoBehaviour
         Cursor.visible = false;
         isPaused = false;
 
-        playerController?.SetPaused(false);
+        playerController?.ResumeWithInputDelay();
     }
 
-    public void ExitGame()
+
+    public void GoToMainMenu()
     {
         Time.timeScale = 1f;
-
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
         SceneManager.LoadScene("Scene_1_MainMenu");
-#endif
     }
 
     private void SetPauseCanvas(bool show)
@@ -76,7 +71,6 @@ public class PauseMenuUI : MonoBehaviour
             pauseCanvasGroup.interactable = show;
             pauseCanvasGroup.blocksRaycasts = show;
 
-            Debug.Log($"🔧 PauseCanvas Set: show = {show}, alpha = {pauseCanvasGroup.alpha}");
         }
     }
 }

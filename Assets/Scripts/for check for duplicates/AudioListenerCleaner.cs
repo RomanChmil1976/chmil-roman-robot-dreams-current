@@ -1,4 +1,3 @@
-// ✅ AudioListenerCleaner.cs
 using UnityEngine;
 
 public class AudioListenerCleaner : MonoBehaviour
@@ -12,7 +11,6 @@ public class AudioListenerCleaner : MonoBehaviour
             for (int i = 1; i < listeners.Length; i++)
             {
                 Destroy(listeners[i]);
-                Debug.LogWarning("🛑 Лишний AudioListener удалён!");
             }
         }
     }
