@@ -6,7 +6,7 @@ public class TargetManager : MonoBehaviour
 {
     public static TargetManager Instance;
 
-    private List<Target> activeTargets = new List<Target>();
+    private readonly List<Target> activeTargets = new List<Target>();
 
     public static event Action<Target> onTargetSpawn;
     public static event Action<Target> onTargetDespawn;
@@ -35,5 +35,10 @@ public class TargetManager : MonoBehaviour
             activeTargets.Remove(target);
             onTargetDespawn?.Invoke(target);
         }
+    }
+
+    public void ForceSpawnEvent(Target target)
+    {
+        onTargetSpawn?.Invoke(target);
     }
 }

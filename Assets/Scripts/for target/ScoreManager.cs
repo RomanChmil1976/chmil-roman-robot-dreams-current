@@ -22,19 +22,29 @@ public class ScoreManager : MonoBehaviour
         TargetManager.onTargetDespawn += UnregisterTarget;
     }
 
+    private void OnDisable()
+    {
+        TargetManager.onTargetSpawn -= RegisterTarget;
+        TargetManager.onTargetDespawn -= UnregisterTarget;
+    }
+
+    private void Start()
+    {
+        foreach (var target in FindObjectsOfType<Target>())
+            RegisterTarget(target);
+    }
+
     private void RegisterTarget(Target target)
     {
-        target._onDeathScoreCallback = () => OnTargetDied(target);
-        target.OnDeath += target._onDeathScoreCallback;
+        target.OnDeath += OnTargetDied;
     }
 
     private void UnregisterTarget(Target target)
     {
-        if (target._onDeathScoreCallback != null)
-            target.OnDeath -= target._onDeathScoreCallback;
+        target.OnDeath -= OnTargetDied;
     }
 
-    private void OnTargetDied(Target target)
+    private void OnTargetDied()
     {
         AddScore(1);
     }

@@ -8,34 +8,65 @@ public class HealthBar : MonoBehaviour
 
     private Target target;
 
-    void Start()
+    private void Awake()
+    {
+        TargetManager.onTargetSpawn += OnTargetSpawn;
+        TargetManager.onTargetDespawn += OnTargetDespawn;
+    }
+
+    private void Start()
     {
         if (cam == null)
             cam = Camera.main;
 
         target = GetComponentInParent<Target>();
-        if (target != null)
+        if (target != null && target.gameObject.activeInHierarchy)
         {
-            target.onSpawn += OnTargetSpawn;
-            target.onHealthChanged += UpdateBar;
-            target.OnDeath += OnTargetDeath;
+            OnTargetSpawn(target);
         }
     }
 
-    private void OnTargetSpawn()
+    private void OnDestroy()
     {
-        gameObject.SetActive(true);
+        TargetManager.onTargetSpawn -= OnTargetSpawn;
+        TargetManager.onTargetDespawn -= OnTargetDespawn;
+
+        if (target != null)
+        {
+            target.onHealthChanged -= UpdateBar;
+            target.OnDeath -= OnTargetDeath;
+        }
+    }
+
+    private void OnTargetSpawn(Target spawnedTarget)
+    {
+        if (spawnedTarget == GetComponentInParent<Target>())
+        {
+            target = spawnedTarget;
+
+            gameObject.SetActive(true);
+            target.onHealthChanged += UpdateBar;
+            target.OnDeath += OnTargetDeath;
+
+            UpdateBar((int)target.maxHealth);
+        }
+    }
+
+    private void OnTargetDespawn(Target despawnedTarget)
+    {
+        if (despawnedTarget == target)
+        {
+            target.onHealthChanged -= UpdateBar;
+            target.OnDeath -= OnTargetDeath;
+            target = null;
+
+            gameObject.SetActive(false);
+        }
     }
 
     private void OnTargetDeath()
     {
         gameObject.SetActive(false);
-        if (target != null)
-        {
-            target.onHealthChanged -= UpdateBar;
-            target.OnDeath -= OnTargetDeath;
-            target.onSpawn += OnTargetSpawn;
-        }
     }
 
     private void UpdateBar(int hp)
@@ -44,14 +75,15 @@ public class HealthBar : MonoBehaviour
             fillImage.fillAmount = hp / 100f;
     }
 
-    void Update()
+    private void Update()
     {
         if (cam != null)
             transform.LookAt(transform.position + cam.transform.forward);
     }
-
+    
     public void SetHealth(float current, float max)
     {
-        fillImage.fillAmount = current / max;
+        if (fillImage != null && max > 0f)
+            fillImage.fillAmount = Mathf.Clamp01(current / max);
     }
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class SettingsMenuManager : MonoBehaviour
+public class SettingsMenu : MonoBehaviour
 {
     public Slider backgroundSoundSlider;
     public Slider dayNightSlider;

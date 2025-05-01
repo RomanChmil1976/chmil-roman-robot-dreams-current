@@ -4,8 +4,6 @@ using System.Collections;
 
 public class Target : MonoBehaviour
 {
-    [NonSerialized] public Action _onDeathScoreCallback;
-
     public float maxHealth = 100f;
     public float respawnTime = 3f;
     private float currentHealth;
@@ -22,7 +20,7 @@ public class Target : MonoBehaviour
 
     [SerializeField] private HealthBar healthBar;
 
-    void Start()
+    private void Start()
     {
         currentHealth = maxHealth;
         initialPosition = transform.position;
@@ -32,10 +30,7 @@ public class Target : MonoBehaviour
         colliders = GetComponentsInChildren<Collider>();
 
         UpdateHealthUI();
-    }
 
-    private void OnEnable()
-    {
         TargetManager.Instance?.Register(this);
         onSpawn?.Invoke();
     }
@@ -55,36 +50,33 @@ public class Target : MonoBehaviour
             StartCoroutine(RespawnRoutine());
     }
 
-    void UpdateHealthUI()
+    private void UpdateHealthUI()
     {
         if (healthBar != null)
             healthBar.SetHealth(currentHealth, maxHealth);
     }
 
-    IEnumerator RespawnRoutine()
+    private IEnumerator RespawnRoutine()
     {
         DisableTarget();
-        ScoreManager.Instance?.AddScore(1);
         OnDeath?.Invoke();
-        TargetManager.Instance?.Unregister(this);
 
         yield return new WaitForSecondsRealtime(respawnTime);
         Respawn();
     }
 
-    void DisableTarget()
+    private void DisableTarget()
     {
         foreach (var r in renderers) r.enabled = false;
         foreach (var c in colliders) c.enabled = false;
         if (healthBar != null) healthBar.gameObject.SetActive(false);
     }
 
-    void Respawn()
+    private void Respawn()
     {
         transform.position = initialPosition;
         transform.rotation = initialRotation;
         currentHealth = maxHealth;
-        onSpawn?.Invoke();
 
         foreach (var r in renderers) r.enabled = true;
         foreach (var c in colliders) c.enabled = true;
@@ -94,5 +86,7 @@ public class Target : MonoBehaviour
             healthBar.gameObject.SetActive(true);
             UpdateHealthUI();
         }
+
+        onSpawn?.Invoke();
     }
 }
