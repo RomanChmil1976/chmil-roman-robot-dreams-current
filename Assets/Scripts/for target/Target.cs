@@ -15,10 +15,10 @@ public class Target : MonoBehaviour
     private Collider[] colliders;
 
     public event Action onSpawn;
-    public event Action<int> onHealthChanged;
+    public event Action<float> onHealthChanged;
     public event Action OnDeath;
-
-    [SerializeField] private HealthBar healthBar;
+    
+    public float CurrentHealth => currentHealth;
 
     private void Start()
     {
@@ -28,8 +28,6 @@ public class Target : MonoBehaviour
 
         renderers = GetComponentsInChildren<Renderer>();
         colliders = GetComponentsInChildren<Collider>();
-
-        UpdateHealthUI();
 
         TargetManager.Instance?.Register(this);
         onSpawn?.Invoke();
@@ -43,17 +41,11 @@ public class Target : MonoBehaviour
     public void TakeDamage(float amount)
     {
         currentHealth -= amount;
-        UpdateHealthUI();
-        onHealthChanged?.Invoke((int)currentHealth);
+        onHealthChanged?.Invoke(currentHealth);
+
 
         if (currentHealth <= 0f)
             StartCoroutine(RespawnRoutine());
-    }
-
-    private void UpdateHealthUI()
-    {
-        if (healthBar != null)
-            healthBar.SetHealth(currentHealth, maxHealth);
     }
 
     private IEnumerator RespawnRoutine()
@@ -69,7 +61,6 @@ public class Target : MonoBehaviour
     {
         foreach (var r in renderers) r.enabled = false;
         foreach (var c in colliders) c.enabled = false;
-        if (healthBar != null) healthBar.gameObject.SetActive(false);
     }
 
     private void Respawn()
@@ -80,12 +71,6 @@ public class Target : MonoBehaviour
 
         foreach (var r in renderers) r.enabled = true;
         foreach (var c in colliders) c.enabled = true;
-
-        if (healthBar != null)
-        {
-            healthBar.gameObject.SetActive(true);
-            UpdateHealthUI();
-        }
 
         onSpawn?.Invoke();
     }

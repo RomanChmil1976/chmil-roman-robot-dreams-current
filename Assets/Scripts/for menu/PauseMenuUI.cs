@@ -16,7 +16,6 @@ public class PauseMenuUI : MonoBehaviour
             Instance = this;
         else
             Destroy(gameObject);
-
         SetPauseCanvas(false);
     }
 
@@ -55,8 +54,7 @@ public class PauseMenuUI : MonoBehaviour
 
         playerController?.ResumeWithInputDelay();
     }
-
-
+    
     public void GoToMainMenu()
     {
         Time.timeScale = 1f;

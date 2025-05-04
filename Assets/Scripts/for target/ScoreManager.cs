@@ -4,9 +4,10 @@ using TMPro;
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance;
-
-    [SerializeField] private TextMeshProUGUI scoreText;
     private int score;
+    
+    [SerializeField] private TextMeshProUGUI scoreText;
+
 
     private void Awake()
     {
@@ -27,13 +28,7 @@ public class ScoreManager : MonoBehaviour
         TargetManager.onTargetSpawn -= RegisterTarget;
         TargetManager.onTargetDespawn -= UnregisterTarget;
     }
-
-    private void Start()
-    {
-        foreach (var target in FindObjectsOfType<Target>())
-            RegisterTarget(target);
-    }
-
+    
     private void RegisterTarget(Target target)
     {
         target.OnDeath += OnTargetDied;

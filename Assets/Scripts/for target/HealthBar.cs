@@ -8,82 +8,59 @@ public class HealthBar : MonoBehaviour
 
     private Target target;
 
-    private void Awake()
-    {
-        TargetManager.onTargetSpawn += OnTargetSpawn;
-        TargetManager.onTargetDespawn += OnTargetDespawn;
-    }
-
-    private void Start()
+    void Start()
     {
         if (cam == null)
             cam = Camera.main;
 
         target = GetComponentInParent<Target>();
-        if (target != null && target.gameObject.activeInHierarchy)
+        if (target != null)
         {
-            OnTargetSpawn(target);
+            target.onSpawn += OnTargetSpawn;
+            target.onHealthChanged += UpdateBar;
+            target.OnDeath += OnTargetDeath;
         }
     }
-
-    private void OnDestroy()
+    
+    private void OnTargetDeath()
     {
-        TargetManager.onTargetSpawn -= OnTargetSpawn;
-        TargetManager.onTargetDespawn -= OnTargetDespawn;
-
+        gameObject.SetActive(false);
         if (target != null)
         {
             target.onHealthChanged -= UpdateBar;
             target.OnDeath -= OnTargetDeath;
+            target.onSpawn += OnTargetSpawn;
         }
     }
 
-    private void OnTargetSpawn(Target spawnedTarget)
-    {
-        if (spawnedTarget == GetComponentInParent<Target>())
-        {
-            target = spawnedTarget;
-
-            gameObject.SetActive(true);
-            target.onHealthChanged += UpdateBar;
-            target.OnDeath += OnTargetDeath;
-
-            UpdateBar((int)target.maxHealth);
-        }
-    }
-
-    private void OnTargetDespawn(Target despawnedTarget)
-    {
-        if (despawnedTarget == target)
-        {
-            target.onHealthChanged -= UpdateBar;
-            target.OnDeath -= OnTargetDeath;
-            target = null;
-
-            gameObject.SetActive(false);
-        }
-    }
-
-    private void OnTargetDeath()
-    {
-        gameObject.SetActive(false);
-    }
-
-    private void UpdateBar(int hp)
+    private void UpdateBar(float hp)
     {
         if (fillImage != null)
             fillImage.fillAmount = hp / 100f;
     }
 
-    private void Update()
+    void Update()
     {
         if (cam != null)
             transform.LookAt(transform.position + cam.transform.forward);
     }
-    
+
     public void SetHealth(float current, float max)
     {
-        if (fillImage != null && max > 0f)
-            fillImage.fillAmount = Mathf.Clamp01(current / max);
+        fillImage.fillAmount = current / max;
     }
+    
+    private void OnTargetSpawn()
+    {
+        gameObject.SetActive(true);
+        if (target != null)
+        {
+            target.onSpawn += OnTargetSpawn;
+            target.onHealthChanged += UpdateBar;
+            target.OnDeath += OnTargetDeath;
+            UpdateBar((int)target.CurrentHealth);
+
+        }
+    }
+
 }
