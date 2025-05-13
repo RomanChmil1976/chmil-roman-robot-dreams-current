@@ -73,5 +73,12 @@ public class Target : MonoBehaviour
         foreach (var c in colliders) c.enabled = true;
 
         onSpawn?.Invoke();
+        
+        // var visualHandler = GetComponent<BotVisualHandler>();
+        // if (visualHandler != null)
+        // {
+        //     visualHandler.SetAlertVisuals(false);
+        // }
+
     }
 }

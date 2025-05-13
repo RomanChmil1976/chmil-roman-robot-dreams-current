@@ -61,6 +61,11 @@ public class UnifiedPlayerController : MonoBehaviour
     [SerializeField] private Sprite musicOffIcon;
     [SerializeField] private MusicToggle musicToggle;
 
+    [Header("Character Models")]
+    [SerializeField] private GameObject thirdPersonModel;
+    [SerializeField] private GameObject firstPersonArms;
+    [SerializeField] private Animator characterAnimator;
+
     private float _currentZoom;
     private float _defaultZoom;
     private float _verticalVelocity;
@@ -144,6 +149,13 @@ public class UnifiedPlayerController : MonoBehaviour
         HandleCameraControl();
         UpdateAimTargetPosition();
         _mouseDelta = Vector2.zero;
+        
+        if (characterAnimator != null)
+        {
+            float speedPercent = _moveDirection.magnitude;
+            characterAnimator.SetFloat("Speed", speedPercent);
+        }
+
     }
 
     private void HandleMovement()
@@ -225,14 +237,32 @@ public class UnifiedPlayerController : MonoBehaviour
             pitchAnchor.localRotation = Quaternion.Euler(_xRotation, 0f, 0f);
     }
 
+    // private void ToggleAimMode()
+    // {
+    //     _isAiming = !_isAiming;
+    //     if (crosshairCanvas != null)
+    //         crosshairCanvas.SetActive(_isAiming);
+    //     if (_isAiming)
+    //         _currentZoom = _defaultZoom;
+    // }
+    
     private void ToggleAimMode()
     {
         _isAiming = !_isAiming;
+
         if (crosshairCanvas != null)
             crosshairCanvas.SetActive(_isAiming);
+
+        if (firstPersonArms != null)
+            firstPersonArms.SetActive(_isAiming);
+    
+        if (thirdPersonModel != null)
+            thirdPersonModel.SetActive(!_isAiming);
+
         if (_isAiming)
             _currentZoom = _defaultZoom;
     }
+
 
     private void Fire()
     {
