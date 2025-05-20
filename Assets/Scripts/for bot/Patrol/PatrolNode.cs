@@ -11,6 +11,7 @@ public class PatrolNode : BTNode
     private float stuckTimer = 0f;
     private float stuckThreshold = 2f;
     private BotVisualHandler visuals;
+    private Animator anim;
 
     public PatrolNode(Transform botTransform, NavMeshAgent agent, Transform[] points, float stopDist, BotVisualHandler visuals)
     {
@@ -19,6 +20,12 @@ public class PatrolNode : BTNode
         this.agent = agent;
         stoppingDistance = stopDist;
         this.visuals = visuals;
+
+        anim = bot.GetComponent<Animator>();
+        //Animator anim = bot.GetComponent<Animator>();
+        // anim = bot.GetComponentInChildren<Animator>();
+
+
 
         currentPointIndex = Random.Range(0, patrolPoints.Length);
         if (agent != null && patrolPoints.Length > 0)
@@ -53,6 +60,15 @@ public class PatrolNode : BTNode
         else stuckTimer = 0f;
 
         visuals?.SetAlertVisuals(false);
+        agent.speed = 2.0f;
+
+        if (anim != null && anim.runtimeAnimatorController != null)
+        {
+            float speed = agent.velocity.magnitude;
+            anim.SetFloat("Speed", speed);
+            Debug.Log($"[{bot.name}] Patrol Speed: {speed:F2}");
+        }
+
         return NodeState.Running;
     }
 }
