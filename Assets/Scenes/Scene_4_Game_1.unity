@@ -14145,10 +14145,11 @@ MonoBehaviour:
   - {fileID: 372829287}
   - {fileID: 1864418426}
   - {fileID: 1426355834}
-  stoppingDistance: 0
+  stoppingDistance: 5
   alertDistance: 10
-  zoneTriggerRadius: 0
-  bulletPrefab: {fileID: 0}
+  zoneTriggerRadius: 20
+  bulletPrefab: {fileID: 7613752876150635140, guid: e989400078d01fb4ebc3b8f33e3029a1,
+    type: 3}
   bots:
   - botTransform: {fileID: 718427203}
     agent: {fileID: 718427206}

@@ -44,7 +44,8 @@ public class BTTreeRunner : MonoBehaviour
 
             if (bot.botTransform.name.Contains("Bot_Combat"))
             {
-                Transform firePoint = bot.botTransform.Find("FirePoint");
+                //Transform firePoint = bot.botTransform.Find("FirePoint");
+                Transform firePoint = bot.botTransform.GetChild(0).Find("FirePoint");
 
                 var shootNode = new BotCombatAttackNode(
                     bot.botTransform,
