@@ -65,6 +65,14 @@ public class UnifiedPlayerController : MonoBehaviour
     [SerializeField] private GameObject thirdPersonModel;
     [SerializeField] private GameObject firstPersonArms;
     [SerializeField] private Animator characterAnimator;
+    
+    [Header("Audio")]
+    [SerializeField] private AudioClip bombThrowClip; 
+    [SerializeField] private AudioSource audioSource;
+    
+    [Header("Particle System")]
+    [SerializeField] private GameObject muzzleFlashPrefab;
+    [SerializeField] private Transform firePoint;
 
     private float _currentZoom;
     private float _defaultZoom;
@@ -87,6 +95,9 @@ public class UnifiedPlayerController : MonoBehaviour
 
     private InputActionMap _gameplayMap;
     private bool _isPaused;
+
+    public bool IsAiming => _isAiming; 
+
 
     public void SetPaused(bool value)
     {
@@ -237,16 +248,7 @@ public class UnifiedPlayerController : MonoBehaviour
             pitchAnchor.localRotation = Quaternion.Euler(_xRotation, 0f, 0f);
     }
 
-    // private void ToggleAimMode()
-    // {
-    //     _isAiming = !_isAiming;
-    //     if (crosshairCanvas != null)
-    //         crosshairCanvas.SetActive(_isAiming);
-    //     if (_isAiming)
-    //         _currentZoom = _defaultZoom;
-    // }
-    
-    private void ToggleAimMode()
+    public void ToggleAimMode()
     {
         _isAiming = !_isAiming;
 
@@ -263,12 +265,28 @@ public class UnifiedPlayerController : MonoBehaviour
             _currentZoom = _defaultZoom;
     }
 
+    public void ExitAimMode()
+    {
+        if (_isAiming)
+
+        {
+            ToggleAimMode();
+            HandleCameraControl();
+        }
+    }
 
     private void Fire()
     {
         if (!_isAiming) return;
         weaponController?.Fire2();
+
+        if (muzzleFlashPrefab != null && firePoint != null)
+        {
+            GameObject flash = Instantiate(muzzleFlashPrefab, firePoint.position, firePoint.rotation);
+            Destroy(flash, 1f); 
+        }
     }
+
 
     private void HandleCameraControl()
     {
@@ -303,35 +321,6 @@ public class UnifiedPlayerController : MonoBehaviour
         aimTarget.localPosition = aimPos;
     }
 
-    private void TriggerExplosion()
-    {
-        if (!_isAiming || playerCamera == null || explosionPrefab == null) return;
-
-        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
-        Vector3 explosionPoint = Physics.Raycast(ray, out RaycastHit hit, 100f) ? hit.point : ray.GetPoint(explosionDistance);
-
-        if (Terrain.activeTerrain != null)
-        {
-            float terrainHeight = Terrain.activeTerrain.SampleHeight(explosionPoint);
-            if (explosionPoint.y < terrainHeight + heightOffset)
-                explosionPoint.y = terrainHeight + heightOffset;
-        }
-
-        GameObject explosion = Instantiate(explosionPrefab, explosionPoint, Quaternion.identity);
-        Destroy(explosion, explosionLifetime);
-
-        float explosionForce = 500f;
-        float explosionRadius = 5f;
-
-        Collider[] colliders = Physics.OverlapSphere(explosionPoint, explosionRadius);
-        foreach (var hitObj in colliders)
-        {
-            Rigidbody rb = hitObj.attachedRigidbody;
-            if (rb != null)
-                rb.AddExplosionForce(explosionForce, explosionPoint, explosionRadius);
-        }
-    }
-
     private void GoBackToMainMenu()
     {
         PauseMenuUI.Instance.TogglePause();
@@ -356,4 +345,34 @@ public class UnifiedPlayerController : MonoBehaviour
 
     private void OnEnable() => _input.Enable();
     private void OnDisable() => _input.Disable();
+
+    private void TriggerExplosion()
+    {
+        if (!_isAiming || playerCamera == null || explosionPrefab == null) return;
+
+        if (!BombManager.Instance.TryUseBomb())
+        {
+            Debug.Log("No bombs!");
+            return;
+        }
+
+        Ray ray = new Ray(playerCamera.transform.position, playerCamera.transform.forward);
+        Vector3 explosionPoint = Physics.Raycast(ray, out RaycastHit hit, 100f) ? hit.point : ray.GetPoint(explosionDistance);
+    
+        GameObject explosion = Instantiate(explosionPrefab, explosionPoint, Quaternion.identity);
+        Destroy(explosion, explosionLifetime);
+    
+        if (audioSource != null && bombThrowClip != null)
+            audioSource.PlayOneShot(bombThrowClip);
+    }
+    
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Reloading"))
+        {
+            BombManager.Instance.ReloadBombs();
+            Debug.Log("Bombs reloaded!");
+        }
+    }
+
 }

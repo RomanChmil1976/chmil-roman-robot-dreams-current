@@ -7,6 +7,8 @@ public class PauseMenuUI : MonoBehaviour
 
     [SerializeField] private CanvasGroup pauseCanvasGroup;
     private UnifiedPlayerController playerController;
+    
+    [SerializeField] private GameObject gameOverObject;
 
     private bool isPaused = false;
 
@@ -71,4 +73,34 @@ public class PauseMenuUI : MonoBehaviour
 
         }
     }
+    
+    public void ShowGameOver()
+    {
+        if (gameOverObject != null)
+        {
+            gameOverObject.SetActive(true);
+        }
+
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        isPaused = true;
+
+        if (playerController != null)
+        {
+            playerController.SetPaused(true);
+        }
+    }
+    
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (gameOverObject.activeSelf)
+            {
+                SceneManager.LoadScene("Scene_1_MainMenu");
+            }
+        }
+    }
+
+
 }

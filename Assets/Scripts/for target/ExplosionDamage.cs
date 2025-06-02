@@ -19,7 +19,5 @@ public class ExplosionDamage : MonoBehaviour
                 target.TakeDamage(damage);
             }
         }
-
-        Debug.DrawRay(transform.position, Vector3.up * 2, Color.red, 2f);
     }
 }

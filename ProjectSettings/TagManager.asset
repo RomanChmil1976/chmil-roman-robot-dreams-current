@@ -5,6 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Points
+  - CinemachineTarget
+  - DeadPlayer
+  - Bot
+  - PlayerBullet
+  - BotBullet
+  - Reloading
   layers:
   - Default
   - TransparentFX

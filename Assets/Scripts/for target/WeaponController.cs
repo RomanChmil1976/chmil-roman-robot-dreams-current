@@ -11,6 +11,10 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private float sphereCastRadius = 0.5f;
     [SerializeField] private Camera playerCamera;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip gunShotClip;
+    [SerializeField] private AudioSource audioSource;
+
     public enum ShootingMode { Raycast, SphereCast }
 
     public void Fire2()
@@ -40,5 +44,8 @@ public class WeaponController : MonoBehaviour
         }
 
         Destroy(bullet, lifeTime);
+
+        if (audioSource != null && gunShotClip != null)
+            audioSource.PlayOneShot(gunShotClip);
     }
 }

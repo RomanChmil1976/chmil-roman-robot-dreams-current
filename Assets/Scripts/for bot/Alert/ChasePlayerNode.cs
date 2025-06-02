@@ -32,18 +32,20 @@ public class ChasePlayerNode : BTNode
 
     public override NodeState Tick()
     {
-        if (player == null || agent == null) return NodeState.Failure;
+        Target playerTarget = player.GetComponent<Target>();
+        if (player == null || playerTarget == null || !playerTarget.IsAlive)
+            return NodeState.Failure;
 
         visuals?.SetAlertVisuals(true);
         agent.speed = 4.5f;
 
         if (anim != null && anim.runtimeAnimatorController != null)
         {
-             float speed = agent.velocity.magnitude;
-             anim.SetFloat("Speed", speed);
-             Debug.Log($"[{bot.name}] Chase Speed: {speed:F2}");
+            float speed = agent.velocity.magnitude;
+            anim.SetFloat("Speed", speed);
+            Debug.Log($"[{bot.name}] Chase Speed: {speed:F2}");
         }
-        
+    
         agent.SetDestination(player.position);
 
         float distance = Vector3.Distance(bot.position, player.position);

@@ -5,11 +5,7 @@ using System.Collections;
 public class Target : MonoBehaviour
 {
     public float maxHealth = 100f;
-    public float respawnTime = 3f;
     private float currentHealth;
-
-    private Vector3 initialPosition;
-    private Quaternion initialRotation;
 
     private Renderer[] renderers;
     private Collider[] colliders;
@@ -17,15 +13,24 @@ public class Target : MonoBehaviour
     public event Action onSpawn;
     public event Action<float> onHealthChanged;
     public event Action OnDeath;
-    
+
     public float CurrentHealth => currentHealth;
+
+    public PlayerDamageOverlay damageOverlay;
+
+    public bool IsAlive { get; private set; } = true;
+
+    [SerializeField] private Transform targetBodyTransform;
+
+    private Vector3 initialPosition;
+    private Quaternion initialRotation;
 
     private void Start()
     {
-        currentHealth = maxHealth;
         initialPosition = transform.position;
         initialRotation = transform.rotation;
 
+        currentHealth = maxHealth;
         renderers = GetComponentsInChildren<Renderer>();
         colliders = GetComponentsInChildren<Collider>();
 
@@ -43,28 +48,72 @@ public class Target : MonoBehaviour
         currentHealth -= amount;
         onHealthChanged?.Invoke(currentHealth);
 
+        if (CompareTag("Player") && damageOverlay != null)
+        {
+            damageOverlay.ShowDamageOverlay();
+        }
 
         if (currentHealth <= 0f)
-            StartCoroutine(RespawnRoutine());
+        {
+            if (CompareTag("Player"))
+            {
+                Die();
+            }
+            else
+            {
+                StartCoroutine(BotDie());
+            }
+        }
     }
 
-    private IEnumerator RespawnRoutine()
+    private void Update()
     {
-        DisableTarget();
-        OnDeath?.Invoke();
-
-        yield return new WaitForSecondsRealtime(respawnTime);
-        Respawn();
+        Animator anim = GetComponentInChildren<Animator>();
     }
 
-    private void DisableTarget()
+    private void Die()
     {
+        IsAlive = false;
+
+        var playerController = GetComponent<UnifiedPlayerController>();
+        if (playerController != null)
+        {
+            playerController.ExitAimMode();
+            PauseMenuUI.Instance?.ShowGameOver();
+        }
+
+        if (targetBodyTransform != null)
+        {
+            Animator anim = targetBodyTransform.GetComponent<Animator>();
+            if (anim != null)
+            {
+                anim.SetTrigger("DieTrigger1");
+            }
+        }
+    }
+
+    private IEnumerator BotDie()
+    {
+        IsAlive = false;
+
+        if (targetBodyTransform != null)
+        {
+            Animator anim = targetBodyTransform.GetComponent<Animator>();
+            if (anim != null)
+            {
+                anim.SetTrigger("DieTrigger2");
+            }
+        }
+
+        yield return new WaitForSeconds(0.4f); 
+
         foreach (var r in renderers) r.enabled = false;
         foreach (var c in colliders) c.enabled = false;
-    }
 
-    private void Respawn()
-    {
+        OnDeath?.Invoke();
+
+        yield return new WaitForSecondsRealtime(3f);
+
         transform.position = initialPosition;
         transform.rotation = initialRotation;
         currentHealth = maxHealth;
@@ -72,13 +121,9 @@ public class Target : MonoBehaviour
         foreach (var r in renderers) r.enabled = true;
         foreach (var c in colliders) c.enabled = true;
 
+        IsAlive = true;
         onSpawn?.Invoke();
-        
-        // var visualHandler = GetComponent<BotVisualHandler>();
-        // if (visualHandler != null)
-        // {
-        //     visualHandler.SetAlertVisuals(false);
-        // }
 
     }
+
 }

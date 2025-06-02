@@ -22,10 +22,6 @@ public class PatrolNode : BTNode
         this.visuals = visuals;
 
         anim = bot.GetComponent<Animator>();
-        //Animator anim = bot.GetComponent<Animator>();
-        // anim = bot.GetComponentInChildren<Animator>();
-
-
 
         currentPointIndex = Random.Range(0, patrolPoints.Length);
         if (agent != null && patrolPoints.Length > 0)
@@ -37,6 +33,14 @@ public class PatrolNode : BTNode
         if (agent == null || patrolPoints.Length == 0)
             return NodeState.Failure;
 
+        if (!agent.hasPath || agent.pathStatus == NavMeshPathStatus.PathPartial)
+        {
+            Debug.Log($"[{bot.name}] Path incomplete or missing. Resetting path.");
+            currentPointIndex = Random.Range(0, patrolPoints.Length);
+            agent.SetDestination(patrolPoints[currentPointIndex].position);
+            stuckTimer = 0f;
+        }
+
         if (!agent.pathPending && agent.remainingDistance <= stoppingDistance)
         {
             int newIndex;
@@ -45,13 +49,15 @@ public class PatrolNode : BTNode
             } while (newIndex == currentPointIndex);
             currentPointIndex = newIndex;
             agent.SetDestination(patrolPoints[currentPointIndex].position);
+            stuckTimer = 0f;
         }
 
-        if (agent.velocity.sqrMagnitude < 0.01f)
+        if (agent.velocity.sqrMagnitude < 0.05f) 
         {
             stuckTimer += Time.deltaTime;
             if (stuckTimer > stuckThreshold)
             {
+                Debug.Log($"[{bot.name}] Bot seems stuck. Changing destination.");
                 currentPointIndex = Random.Range(0, patrolPoints.Length);
                 agent.SetDestination(patrolPoints[currentPointIndex].position);
                 stuckTimer = 0f;

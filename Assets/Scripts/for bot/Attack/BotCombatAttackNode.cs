@@ -55,7 +55,6 @@ public class BotCombatAttackNode : BTNode
 
         if (anim != null)
         {
-            anim.SetTrigger("Shoot");
         }
     }
 }

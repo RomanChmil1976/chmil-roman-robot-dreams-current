@@ -19,9 +19,14 @@ public class ZoneAlertConditionNode : BTNode
 
     public override NodeState Tick()
     {
+        Target playerTarget = player.GetComponent<Target>();
+        if (player == null || playerTarget == null || !playerTarget.IsAlive)
+            return NodeState.Failure;
+
         Vector2 playerPos2D = new Vector2(player.position.x, player.position.z);
         return IsPointInPolygon(playerPos2D, zonePolygon) ? NodeState.Success : NodeState.Failure;
     }
+
 
     private bool IsPointInPolygon(Vector2 point, Vector2[] polygon)
     {
