@@ -15,12 +15,39 @@ public class AlertConditionNode : BTNode
 
     public override NodeState Tick()
     {
-        Target playerTarget = player.GetComponent<Target>();
-        if (player == null || playerTarget == null || !playerTarget.IsAlive)
+        if (bot == null)
+        {
+            Debug.LogWarning("AlertConditionNode: Bot Transform has been destroyed or is missing.");
             return NodeState.Failure;
+        }
+
+        if (player == null)
+        {
+            Debug.LogWarning("AlertConditionNode: Player Transform has been destroyed or is missing.");
+            return NodeState.Failure;
+        }
+
+        Target playerTarget = player.GetComponent<Target>();
+        if (playerTarget == null)
+        {
+            Debug.LogWarning("AlertConditionNode: Player Target component is missing.");
+            return NodeState.Failure;
+        }
+
+        if (!playerTarget.IsAlive)
+        {
+            Debug.Log("AlertConditionNode: Player is not alive.");
+            return NodeState.Failure;
+        }
 
         float distance = Vector3.Distance(bot.position, player.position);
-        return distance < alertDistance ? NodeState.Success : NodeState.Failure;
+        if (distance < alertDistance)
+        {
+            return NodeState.Success;
+        }
+        else
+        {
+            return NodeState.Failure;
+        }
     }
-
 }

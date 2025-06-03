@@ -86,13 +86,15 @@ public class BTTreeRunner : MonoBehaviour
 
         foreach (var bot in bots)
         {
+            if (bot == null || bot.botTransform == null) continue; 
+
             bool isProximityAlert = Vector3.Distance(bot.botTransform.position, player.position) < alertDistance;
             bool isZoneAlert = IsPlayerInZone();
 
             if (isProximityAlert || isZoneAlert)
             {
                 anyBotInAlert = true;
-                break; 
+                break;
             }
         }
 

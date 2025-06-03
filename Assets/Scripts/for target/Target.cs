@@ -125,5 +125,12 @@ public class Target : MonoBehaviour
         onSpawn?.Invoke();
 
     }
+    
+    public void AddHealth(float amount)
+    {
+        currentHealth += amount;
+        onHealthChanged?.Invoke(currentHealth);
+    }
+
 
 }
